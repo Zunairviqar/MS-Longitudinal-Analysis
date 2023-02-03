@@ -1,1 +1,0 @@
-single_timepoint_flair_brain_extracted.nii.gz t1_brain_to_flair_brain.nii.gz flair_brain_to_mni.mat flair_lesion_mask.nii.gz 
