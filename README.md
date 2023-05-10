@@ -11,7 +11,7 @@ Both the files compliment each other. The Jupyter Notebook can be read through f
 
 Then, these models are stored and copied, automatically by the Jupyter Notebook at /GUI/assets/model which is then utilized by the Graphical User Interface to allow for a User Friendly Utilization of the models, and to obtain masks for New, Old and All Multiple Sclerosis Lesions for any patient.
 
-A Sample Prepared Dataset for the training can be found here: https://drive.google.com/drive/folders/19SavtEGMwiEvUtkAUeG8ie2xrSm18Hcv?usp=share_link 
+A Sample Prepared Dataset for the training can be found here: https://drive.google.com/drive/folders/19SavtEGMwiEvUtkAUeG8ie2xrSm18Hcv?usp=share_link. If you want to test this project yourself, you will have to install FSL, MATLAB, PyQT5, and other related packages/tools.
 
 The advisors for the project were David Melcher, Djellel Difallah and Osama Abdullah.
 
