@@ -13,4 +13,7 @@ Then, these models are stored and copied, automatically by the Jupyter Notebook 
 
 A Sample Prepared Dataset for the training can be found here: https://drive.google.com/drive/folders/19SavtEGMwiEvUtkAUeG8ie2xrSm18Hcv?usp=share_link 
 
+The advisors for the project were David Melcher, Djellel Difallah and Osama Abdullah.
+
 If you have queries regarding the project, feel free to contact mzv205@nyu.edu!
+
