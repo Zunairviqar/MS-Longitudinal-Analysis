@@ -1,0 +1,10 @@
+ms_003_tp1/ms_003_tp1_flair_brain.nii.gz ms_003_tp1/ms_003_tp1_flair_lesion_mask.nii.gz 
+ms_009_tp1/ms_009_tp1_flair_brain.nii.gz ms_009_tp1/ms_009_tp1_flair_lesion_mask.nii.gz 
+ms_004_tp1/ms_004_tp1_flair_brain.nii.gz ms_004_tp1/ms_004_tp1_flair_lesion_mask.nii.gz 
+ms_007_tp1/ms_007_tp1_flair_brain.nii.gz ms_007_tp1/ms_007_tp1_flair_lesion_mask.nii.gz 
+ms_001_tp1/ms_001_tp1_flair_brain.nii.gz ms_001_tp1/ms_001_tp1_flair_lesion_mask.nii.gz 
+ms_006_tp1/ms_006_tp1_flair_brain.nii.gz ms_006_tp1/ms_006_tp1_flair_lesion_mask.nii.gz 
+ms_005_tp1/ms_005_tp1_flair_brain.nii.gz ms_005_tp1/ms_005_tp1_flair_lesion_mask.nii.gz 
+ms_008_tp1/ms_008_tp1_flair_brain.nii.gz ms_008_tp1/ms_008_tp1_flair_lesion_mask.nii.gz 
+ms_002_tp1/ms_002_tp1_flair_brain.nii.gz ms_002_tp1/ms_002_tp1_flair_lesion_mask.nii.gz 
+ms_010_tp1/ms_010_tp1_flair_brain.nii.gz ms_010_tp1/ms_010_tp1_flair_lesion_mask.nii.gz 
