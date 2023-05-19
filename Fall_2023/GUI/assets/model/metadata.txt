@@ -1,3 +1,0 @@
-256,256,35
-ms_010_tp1_flair_brain.nii.gz
-/Users/zunairviqar/Documents/GitHub/MS-Longitudinal-Analysis/Fall_2023/Sample_Prepared_Data/Training-2023-04-02/LOCATE_Training-2023-04-02

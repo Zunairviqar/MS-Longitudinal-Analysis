@@ -1,12 +1,12 @@
 function copying_image_geometry(source_file, target_file, verbose)
 
-setenv( 'FSLDIR', '/usr/local/fsl' );
+setenv( 'FSLDIR', '/Applications/fsl' );
 fsldir = getenv('FSLDIR');
 fsldirmpath = sprintf('%s/etc/matlab',fsldir);
 path(path, fsldirmpath);
 clear fsldir fsldirmpath;
 
-setenv('PATH', [getenv('PATH'),':/usr/local/fsl/bin'])
+setenv('PATH', [getenv('PATH'),':/Applications/fsl/bin'])
 
 [status,output] = call_fsl(sprintf('fslcpgeom %s %s',source_file, target_file));
 

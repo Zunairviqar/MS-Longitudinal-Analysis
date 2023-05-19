@@ -105,6 +105,7 @@ def managedirectories(flairTp1, flairTp2):
 
 # Function to run the brain extraction on the User Input Nifti Images
 def run_bet(timepoint1_directory, timepoint2_directory, processing_directory, flairTp1, flairTp2):
+    print(f"cd {timepoint1_directory} && bet {flairTp1} {processing_directory}/tp1_brain.nii.gz")
     run_command(f"cd {timepoint1_directory} && bet {flairTp1} {processing_directory}/tp1_brain.nii.gz")
     run_command(f"cd {timepoint2_directory} && bet {flairTp2} {processing_directory}/tp2_feature_FLAIR.nii.gz")
 
@@ -118,11 +119,11 @@ def resample_images(processing_directory):
 # Run FSL Fast to get the CSF pve file
 def run_fsl_fast(locate_training_directory):
     output = run_command(
-        f"cd {locate_training_directory} && /usr/local/fsl/bin/fast -t 1 -n 3 -H 0.1 -I 4 -l 20.0 -o {locate_training_directory}/Longitudinal_Processing/ {locate_training_directory}/Longitudinal_Processing/tp1_feature_FLAIR.nii.gz")
+        f"cd {locate_training_directory} && /Applications/fsl/bin/fast -t 1 -n 3 -H 0.1 -I 4 -l 20.0 -o {locate_training_directory}/Longitudinal_Processing/ {locate_training_directory}/Longitudinal_Processing/tp1_feature_FLAIR.nii.gz")
     output = run_command(
         f"cd {locate_training_directory} && cp {locate_training_directory}/Longitudinal_Processing/_pve_0.nii.gz {locate_training_directory}/Longitudinal_Processing/tp1_csf_pve.nii.gz")
     output = run_command(
-        f"cd {locate_training_directory} && /usr/local/fsl/bin/fast -t 1 -n 3 -H 0.1 -I 4 -l 20.0 -o {locate_training_directory}/Longitudinal_Processing/ {locate_training_directory}/Longitudinal_Processing/tp2_feature_FLAIR.nii.gz")
+        f"cd {locate_training_directory} && /Applications/fsl/bin/fast -t 1 -n 3 -H 0.1 -I 4 -l 20.0 -o {locate_training_directory}/Longitudinal_Processing/ {locate_training_directory}/Longitudinal_Processing/tp2_feature_FLAIR.nii.gz")
     output = run_command(
         f"cd {locate_training_directory} && cp {locate_training_directory}/Longitudinal_Processing/_pve_0.nii.gz {locate_training_directory}/Longitudinal_Processing/tp2_csf_pve.nii.gz")
 
@@ -130,10 +131,13 @@ def run_fsl_fast(locate_training_directory):
 # For TimePoint 1
 # Obtain the warp_file_MNI2structural
 def obtain_files_tp1(locate_training_directory, mni_directory, t1_2_mni):
+    print(f"cd {locate_training_directory} && flirt -ref {mni_directory} -in {locate_training_directory}/Longitudinal_Processing/tp1_feature_FLAIR.nii.gz -omat {locate_training_directory}/Longitudinal_Processing/my_affine_transf.mat")
     output = run_command(
         f"cd {locate_training_directory} && flirt -ref {mni_directory} -in {locate_training_directory}/Longitudinal_Processing/tp1_feature_FLAIR.nii.gz -omat {locate_training_directory}/Longitudinal_Processing/my_affine_transf.mat")
+    print(f"cd {locate_training_directory} && fnirt --in={locate_training_directory}/Longitudinal_Processing/tp1_feature_FLAIR.nii.gz --aff={locate_training_directory}/Longitudinal_Processing/my_affine_transf.mat --cout={locate_training_directory}/Longitudinal_Processing/my_nonlinear_transf --config={t1_2_mni} --lambda=400,200,150,75,60,45")
     output = run_command(
         f"cd {locate_training_directory} && fnirt --in={locate_training_directory}/Longitudinal_Processing/tp1_feature_FLAIR.nii.gz --aff={locate_training_directory}/Longitudinal_Processing/my_affine_transf.mat --cout={locate_training_directory}/Longitudinal_Processing/my_nonlinear_transf --config={t1_2_mni} --lambda=400,200,150,75,60,45")
+    print(f"cd {locate_training_directory} && invwarp -w {locate_training_directory}/Longitudinal_Processing/my_nonlinear_transf -o {locate_training_directory}/Longitudinal_Processing/invwarpvol_new -r {locate_training_directory}/Longitudinal_Processing/tp1_feature_FLAIR.nii.gz")
     output = run_command(
         f"cd {locate_training_directory} && invwarp -w {locate_training_directory}/Longitudinal_Processing/my_nonlinear_transf -o {locate_training_directory}/Longitudinal_Processing/invwarpvol_new -r {locate_training_directory}/Longitudinal_Processing/tp1_feature_FLAIR.nii.gz")
     output = run_command(
@@ -216,8 +220,11 @@ def move_files_tp2(locate_training_directory, testing_directory):
 
 # Runs the LOCATE Function using the LongitudinalTests and Testing_imgs_directory
 def run_locate(locate_training_directory):
+    print(f"/Applications/MATLAB_R2020b.app/bin/matlab -nodisplay -r \"addpath '/Users/ms/Documents/GitHub/MS-Longitudinal-Analysis/Fall_2023/LOCATE-BIANCA';addpath '/Users/ms/Documents/GitHub/MS-Longitudinal-Analysis/Fall_2023/LOCATE-BIANCA/MATLAB';cd('{locate_training_directory}'); LOCATE_testing('Longitudinal_Tests', 'Training_imgs_directory');exit\"")
     output = run_command(
-        f"/Applications/MATLAB_R2022b.app/bin/matlab -nodisplay -r \"cd('{locate_training_directory}'); LOCATE_testing('Longitudinal_Tests', 'Training_imgs_directory');exit\"")
+        # f"/Applications/MATLAB_R2020b.app/bin/matlab -nodisplay -r \"cd('{locate_training_directory}'); LOCATE_testing('Longitudinal_Tests', 'Training_imgs_directory');exit\"")
+        f"/Applications/MATLAB_R2020b.app/bin/matlab -nodisplay -r \"addpath '/Users/ms/Documents/GitHub/MS-Longitudinal-Analysis/Fall_2023/LOCATE-BIANCA';addpath '/Users/ms/Documents/GitHub/MS-Longitudinal-Analysis/Fall_2023/LOCATE-BIANCA/MATLAB';cd('{locate_training_directory}'); LOCATE_testing('Longitudinal_Tests', 'Training_imgs_directory');exit\"")
+
 
 
 # Creates the masks for New, Lost, and All Lesions
@@ -338,7 +345,7 @@ class ContentArea(QWidget):
 
         def on_run_analysis_clicked():
             if self.tp1_selected & self.tp2_selected & self.folder_selected:
-                print("Can Run")
+                # print("Can Run")
                 model_directory, locate_training_directory, processing_directory, testing_directory, timepoint1_directory, timepoint2_directory, t1_2_mni, mni_directory = managedirectories(
                     self.flairTp1, self.flairTp2)
                 showOnScreen("-> running brain extraction...")
@@ -361,7 +368,7 @@ class ContentArea(QWidget):
                 showOnScreen("-> Running LOCATE...")
                 run_locate(locate_training_directory)
                 showOnScreen("-> LOCATE complete!")
-                run_analysis(locate_training_directory, testing_directory)
+                masks_analysis(locate_training_directory, testing_directory)
                 showOnScreen("-> Storing Data in Output Folder")
                 store_files(locate_training_directory, self.outputFolderPath)
                 remove_intermediary(locate_training_directory)
@@ -435,7 +442,7 @@ class ContentArea(QWidget):
 
         # Adds an Image to the Screen with the specified size
         select_tp1 = QLabel()
-        pixmap = QPixmap("assets/images/down")
+        pixmap = QPixmap("/Users/ms/Documents/GitHub/MS-Longitudinal-Analysis/Fall_2023/GUI/assets/images/down")
         max_size = QSize(45, 45)
         scaled_pixmap = pixmap.scaled(max_size, aspectRatioMode=Qt.KeepAspectRatio)
         select_tp1.setPixmap(scaled_pixmap)
@@ -457,7 +464,7 @@ class ContentArea(QWidget):
 
         # Adds the folder image to the screen
         folder_image = QLabel()
-        pixmap = QPixmap("assets/images/folder.png")
+        pixmap = QPixmap("/Users/ms/Documents/GitHub/MS-Longitudinal-Analysis/Fall_2023/GUI/assets/images/folder.png")
         max_size = QSize(23, 23)
         scaled_pixmap = pixmap.scaled(max_size, aspectRatioMode=Qt.KeepAspectRatio)
         folder_image.setPixmap(scaled_pixmap)
@@ -511,7 +518,7 @@ class ContentArea(QWidget):
 
         # Adds an Image to the Screen with the specified size
         select_tp2 = QLabel()
-        pixmap = QPixmap("assets/images/down")
+        pixmap = QPixmap("/Users/ms/Documents/GitHub/MS-Longitudinal-Analysis/Fall_2023/GUI/assets/images/down")
         max_size = QSize(45, 45)
         scaled_pixmap = pixmap.scaled(max_size, aspectRatioMode=Qt.KeepAspectRatio)
         select_tp2.setPixmap(scaled_pixmap)
@@ -533,7 +540,7 @@ class ContentArea(QWidget):
 
         # Adds the folder image to the screen
         folder_image = QLabel()
-        pixmap = QPixmap("assets/images/folder.png")
+        pixmap = QPixmap("/Users/ms/Documents/GitHub/MS-Longitudinal-Analysis/Fall_2023/GUI/assets/images/folder.png")
         max_size = QSize(23, 23)
         scaled_pixmap = pixmap.scaled(max_size, aspectRatioMode=Qt.KeepAspectRatio)
         folder_image.setPixmap(scaled_pixmap)
@@ -586,7 +593,7 @@ class ContentArea(QWidget):
 
         # Adds an Image to the Screen with the specified size
         select_output = QLabel()
-        pixmap = QPixmap("assets/images/down")
+        pixmap = QPixmap("/Users/ms/Documents/GitHub/MS-Longitudinal-Analysis/Fall_2023/GUI/assets/images/down")
         max_size = QSize(45, 45)
         scaled_pixmap = pixmap.scaled(max_size, aspectRatioMode=Qt.KeepAspectRatio)
         select_output.setPixmap(scaled_pixmap)
@@ -608,7 +615,7 @@ class ContentArea(QWidget):
 
         # Adds the folder image to the screen
         folder_image = QLabel()
-        pixmap = QPixmap("assets/images/folder.png")
+        pixmap = QPixmap("/Users/ms/Documents/GitHub/MS-Longitudinal-Analysis/Fall_2023/GUI/assets/images/folder.png")
         max_size = QSize(23, 23)
         scaled_pixmap = pixmap.scaled(max_size, aspectRatioMode=Qt.KeepAspectRatio)
         folder_image.setPixmap(scaled_pixmap)
